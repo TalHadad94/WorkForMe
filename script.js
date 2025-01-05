@@ -78,21 +78,26 @@ document.getElementById("language-toggle").addEventListener("click", () => {
 function updateLanguage() {
     const lang = translations[currentLanguage];
 
-    // Update HTML dir attribute
-    document.documentElement.setAttribute("lang", currentLanguage);
-    document.documentElement.setAttribute("dir", currentLanguage === "he" ? "rtl" : "ltr");
+    // Update Navbar links
+    const navLinks = [
+        { id: "home", text: lang.navHome },
+        { id: "about", text: lang.navAbout },
+        { id: "projects", text: lang.navProjects },
+        { id: "contact", text: lang.navContact },
+    ];
 
-    // Update Navbar
-    const navLinks = document.querySelectorAll('nav a');
-    const navOrder = currentLanguage === "he" ? [3, 2, 1, 0] : [0, 1, 2, 3];
-    const navParent = navLinks[0].parentElement.parentElement;
-    navOrder.forEach(index => {
-        navParent.appendChild(navLinks[index].parentElement);
+    const navUl = document.querySelector("nav ul");
+    navUl.innerHTML = ""; // Clear existing links
+
+    const orderedLinks = currentLanguage === "he" ? navLinks.reverse() : navLinks;
+    orderedLinks.forEach(link => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = `#${link.id}`;
+        a.textContent = link.text;
+        li.appendChild(a);
+        navUl.appendChild(li);
     });
-    navLinks[0].textContent = lang.navHome;
-    navLinks[1].textContent = lang.navAbout;
-    navLinks[2].textContent = lang.navProjects;
-    navLinks[3].textContent = lang.navContact;
 
     // Update Header
     document.querySelector("header h1").textContent = lang.headerTitle;
@@ -116,6 +121,9 @@ function updateLanguage() {
 
     // Update Toggle Button Text
     document.getElementById("language-toggle").textContent = currentLanguage === "en" ? "עברית" : "English";
+
+    // Adjust text direction
+    document.body.dir = currentLanguage === "he" ? "rtl" : "ltr";
 }
 
 updateLanguage(); // Initial load to ensure default language setup
