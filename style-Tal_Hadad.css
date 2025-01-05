@@ -74,8 +74,6 @@ nav a.active {
 header {
     text-align: center;
     padding: 2em 0;
-    background: #444 url('your-background.jpg') no-repeat center center/cover;
-    color: #fff;
 }
 
 header video {

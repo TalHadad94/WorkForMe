@@ -14,20 +14,6 @@ document.querySelectorAll('nav a').forEach(link => {
     });
 });
 
-// Navbar Highlighting on Scroll
-window.addEventListener('scroll', () => {
-    const sections = document.querySelectorAll('section');
-    const navLinks = document.querySelectorAll('nav a');
-
-    sections.forEach((section, index) => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= 0 && rect.top < window.innerHeight / 2) {
-            navLinks.forEach(link => link.classList.remove('active'));
-            navLinks[index]?.classList.add('active');
-        }
-    });
-});
-
 // Language Toggle
 const translations = {
     en: {
@@ -46,7 +32,7 @@ const translations = {
         formEmail: "Email:",
         formMessage: "Message:",
         formButton: "Send",
-        footer: "© 2024 Tal Hadad. All rights reserved.",
+        footer: "© 2025 Tal Hadad. All rights reserved.",
     },
     he: {
         navHome: "בית",
@@ -64,7 +50,7 @@ const translations = {
         formEmail: "אימייל:",
         formMessage: "הודעה:",
         formButton: "שלח",
-        footer: "© 2024 טל חדד. כל הזכויות שמורות.",
+        footer: "© 2025 טל חדד. כל הזכויות שמורות.",
     },
 };
 
