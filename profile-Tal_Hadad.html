@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tal Hadad Portfolio</title>
+    <link rel="stylesheet" href="style-Tal_Hadad.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav>
+        <button id="language-toggle" title="Change language">עברית</button>
+        <ul>
+            <li><a href="#home">Home</a></li>
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <header id="home">
+        <h1>Welcome to My Portfolio</h1>
+        <video autoplay muted loop>
+            <source src="your-video.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </header>
+
+    <!-- About Me Section -->
+    <section id="about">
+        <h2>About Me</h2>
+        <p>I am Tal Hadad, a passionate Full Stack Developer and AI enthusiast. I create innovative web applications and AI-driven projects.</p>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects">
+        <h2>My Projects</h2>
+        <div class="project">
+            <h3>Pic2Peak</h3>
+            <p>Project summary, loading...</p>
+            <a href="https://github.com/TalHadad94/Pic2Peak" target="_blank">View on GitHub</a>
+        </div>
+        <!-- Add more projects as needed -->
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact Me</h2>
+        <form>
+            <label for="name">Name:</label>
+            <input type="text" id="client-name" name="client-name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="client-email" name="client-email" required>
+
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" required></textarea>
+
+            <button type="submit">Send</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>© 2024 Tal Hadad. All rights reserved.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
