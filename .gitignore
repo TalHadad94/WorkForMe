@@ -1,0 +1,3 @@
+# ignore ALL .csv & .ipynb & .rar files
+*.jpg
+*.mp4
