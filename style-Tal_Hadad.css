@@ -14,6 +14,14 @@ body {
     background-color: #f9f9f9;
 }
 
+body[dir="rtl"] {
+    text-align: right;
+}
+
+body[dir="ltr"] {
+    text-align: left;
+}
+
 /* Navbar */
 #language-toggle {
     position: absolute;
@@ -35,6 +43,14 @@ nav ul {
     display: flex;
     justify-content: center;
     gap: 1.5em;
+}
+
+nav ul {
+    flex-direction: row-reverse; /* Applied dynamically for RTL */
+}
+
+body[dir="ltr"] nav ul {
+    flex-direction: row;
 }
 
 nav ul li a {

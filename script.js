@@ -78,8 +78,17 @@ document.getElementById("language-toggle").addEventListener("click", () => {
 function updateLanguage() {
     const lang = translations[currentLanguage];
 
+    // Update HTML dir attribute
+    document.documentElement.setAttribute("lang", currentLanguage);
+    document.documentElement.setAttribute("dir", currentLanguage === "he" ? "rtl" : "ltr");
+
     // Update Navbar
     const navLinks = document.querySelectorAll('nav a');
+    const navOrder = currentLanguage === "he" ? [3, 2, 1, 0] : [0, 1, 2, 3];
+    const navParent = navLinks[0].parentElement.parentElement;
+    navOrder.forEach(index => {
+        navParent.appendChild(navLinks[index].parentElement);
+    });
     navLinks[0].textContent = lang.navHome;
     navLinks[1].textContent = lang.navAbout;
     navLinks[2].textContent = lang.navProjects;
