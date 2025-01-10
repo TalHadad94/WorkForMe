@@ -1,18 +1,23 @@
-// Smooth Scrolling
-document.querySelectorAll('nav a').forEach(link => {
-    link.addEventListener('click', function (e) {
-        e.preventDefault(); // Prevent default behavior
-        const targetId = this.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetId);
+function attachSmoothScroll() {
+    document.querySelectorAll('nav a').forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default behavior
+            const targetId = this.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
 
-        if (targetSection) {
-            targetSection.scrollIntoView({
-                behavior: 'smooth',
-                block: 'start',
-            });
-        }
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start',
+                });
+            }
+        });
     });
-});
+}
+
+// Call it initially
+attachSmoothScroll();
+
 
 // Language Toggle
 const translations = {
@@ -110,6 +115,9 @@ function updateLanguage() {
 
     // Adjust text direction
     document.body.dir = currentLanguage === "he" ? "rtl" : "ltr";
+
+    // Reattach smooth scrolling event listeners
+    attachSmoothScroll();
 }
 
 updateLanguage(); // Initial load to ensure default language setup

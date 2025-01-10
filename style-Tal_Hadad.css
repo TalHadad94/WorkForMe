@@ -99,14 +99,14 @@ section {
 
 /* About Section */
 #about {
-    background-color: #eef;
+    background-color: #fff;
 }
 
 /* Projects Section */
 .project {
     margin: 1em 0;
     padding: 1em;
-    background: #f4f4f4;
+    background: #fff;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
