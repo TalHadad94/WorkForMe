@@ -162,3 +162,30 @@ footer {
     color: #fff;
     margin-top: 2em;
 }
+
+/* Accessibility Button */
+#language-toggle {
+    position: fixed;
+    bottom: 10px;
+    right: 10px; /* Default for LTR */
+    padding: 0.5em 1em;
+    font-size: 1em;
+    background: #00bcd4;
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    transition: background 0.3s ease;
+}
+
+#language-toggle:hover {
+    background: #008c9e;
+}
+
+/* For RTL */
+body[dir="rtl"] #language-toggle {
+    right: unset;
+    left: 10px;
+}

@@ -1,3 +1,4 @@
+// Attach smooth scrolling behavior to navigation links
 function attachSmoothScroll() {
     document.querySelectorAll('nav a').forEach(link => {
         link.addEventListener('click', function (e) {
@@ -15,11 +16,10 @@ function attachSmoothScroll() {
     });
 }
 
-// Call it initially
+// Call it initially to set up smooth scrolling
 attachSmoothScroll();
 
-
-// Language Toggle
+// Translations for multilingual support
 const translations = {
     en: {
         navHome: "Home",
@@ -61,11 +61,7 @@ const translations = {
 
 let currentLanguage = "he"; // Default language
 
-document.getElementById("language-toggle").addEventListener("click", () => {
-    currentLanguage = currentLanguage === "en" ? "he" : "en";
-    updateLanguage();
-});
-
+// Update content based on the selected language
 function updateLanguage() {
     const lang = translations[currentLanguage];
 
@@ -111,7 +107,9 @@ function updateLanguage() {
     document.querySelector("footer p").textContent = lang.footer;
 
     // Update Toggle Button Text
-    document.getElementById("language-toggle").textContent = currentLanguage === "en" ? "עברית" : "English";
+    const langToggleBtn = document.getElementById("language-toggle");
+    langToggleBtn.textContent = currentLanguage === "en" ? "עברית" : "English";
+    langToggleBtn.title = currentLanguage === "en" ? "Switch to Hebrew" : "Switch to English";
 
     // Adjust text direction
     document.body.dir = currentLanguage === "he" ? "rtl" : "ltr";
@@ -120,4 +118,11 @@ function updateLanguage() {
     attachSmoothScroll();
 }
 
-updateLanguage(); // Initial load to ensure default language setup
+// Language Toggle Button Logic
+document.getElementById("language-toggle").addEventListener("click", () => {
+    currentLanguage = currentLanguage === "en" ? "he" : "en";
+    updateLanguage();
+});
+
+// Ensure proper initial setup on page load
+updateLanguage();
