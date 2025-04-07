@@ -61,6 +61,30 @@ circles[0].vy = 0;
 function animate() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    const threshold = 150; // max distance to connect
+
+    // Connect close circles
+    for (let i = 0; i < circles.length; i++) {
+        for (let j = i + 1; j < circles.length; j++) {
+            const c1 = circles[i];
+            const c2 = circles[j];
+
+            const dx = c1.x - c2.x;
+            const dy = c1.y - c2.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            if (distance < threshold) {
+                ctx.beginPath();
+                ctx.moveTo(c1.x, c1.y);
+                ctx.lineTo(c2.x, c2.y);
+                ctx.strokeStyle = `rgba(255, 255, 255, ${1 - distance / threshold})`; // fade by distance
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.closePath();
+            }
+        }
+    }
+
     // Update all circles
     circles.forEach(circle => circle.update(canvas));
 
