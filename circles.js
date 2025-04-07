@@ -1,38 +1,46 @@
+// 🎨 Setup canvas
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
+// 🖼️ Resize canvas to fill the browser window
 function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 }
-
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
-// 🟢 Mouse tracker
-let mouse = { x: 0, y: 0 };
+// 🔵 OrbitCircle class for orbiting behavior
+class OrbitCircle {
+  constructor(centerX, centerY, radius, orbitRadius, angle, speed, color, label = "") {
+    this.centerX = centerX;       // Center of orbit (initially profile center)
+    this.centerY = centerY;
+    this.radius = radius;         // Size of the orbiting circle
+    this.orbitRadius = orbitRadius; // Distance from the center circle
+    this.angle = angle;           // Current angle in orbit (in radians)
+    this.speed = speed;           // Orbit speed (radians per frame)
+    this.color = color;           // Circle color
+    this.label = label;           // Optional text label
+    this.isHovered = false;       // For hover effect
+  }
 
-// 🎯 Circle Class with draw and update
-class Circle {
-  constructor(x, y, radius, color, label = "") {
-    this.x = x;
-    this.y = y;
-    this.radius = radius;
-    this.color = color;
-    this.label = label;
-    this.vx = (Math.random() - 0.5) * 2;
-    this.vy = (Math.random() - 0.5) * 2;
-    this.isHovered = false;
+  update() {
+    // Move in a circular path
+    this.angle += this.speed;
+    this.x = this.centerX + Math.cos(this.angle) * this.orbitRadius;
+    this.y = this.centerY + Math.sin(this.angle) * this.orbitRadius;
+    this.draw(ctx);
   }
 
   draw(ctx) {
+    // Draw circle
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
     ctx.fillStyle = this.isHovered ? "#fff" : this.color;
     ctx.fill();
     ctx.closePath();
 
-    // Label under circle
+    // Label inside the circle
     if (this.label) {
       ctx.fillStyle = "#000";
       ctx.font = "12px Arial";
@@ -40,7 +48,7 @@ class Circle {
       ctx.fillText(this.label, this.x, this.y + 4);
     }
 
-    // Tooltip-like hover info
+    // Optional hover text above the circle
     if (this.isHovered) {
       ctx.fillStyle = "#333";
       ctx.font = "bold 13px Arial";
@@ -49,100 +57,116 @@ class Circle {
     }
   }
 
-  update(canvas) {
-    this.x += this.vx;
-    this.y += this.vy;
-
-        // Bounce off walls
-    if (this.x - this.radius < 0 || this.x + this.radius > canvas.width) {
-      this.vx *= -1;
-    }
-    if (this.y - this.radius < 0 || this.y + this.radius > canvas.height) {
-      this.vy *= -1;
-    }
-
-    this.draw(ctx);
-  }
-
-  isClicked(mouseX, mouseY) {
-    const dx = this.x - mouseX;
-    const dy = this.y - mouseY;
-    return Math.sqrt(dx * dx + dy * dy) <= this.radius;
-  }
-
   isHoveredOver(mx, my) {
+    // Basic hit detection
     const dx = this.x - mx;
     const dy = this.y - my;
     return Math.sqrt(dx * dx + dy * dy) <= this.radius;
   }
 }
 
-// 🌐 Circles data
-const circles = [
-  new Circle(canvas.width / 2, canvas.height / 2, 40, "#4fc3f7", "Profile"),
-  new Circle(canvas.width / 2 - 150, canvas.height / 2 - 100, 25, "#ff7043", "JS"),
-  new Circle(canvas.width / 2 + 120, canvas.height / 2 + 60, 25, "#81c784", "CSS"),
-  new Circle(canvas.width / 2 - 100, canvas.height / 2 + 130, 25, "#ba68c8", "HTML"),
+// 🔵 Central static profile circle
+const profile = {
+  x: canvas.width / 2,
+  y: canvas.height / 2,
+  radius: 48,
+  color: "#4fc3f7",
+  label: "Tal Hadad"
+};
+
+// 🟣 Orbiting skill circles
+const orbitCircles = [
+  new OrbitCircle(profile.x, profile.y, 25, 160, 0, 0.0003, "#ff7043", "JS"),
+  new OrbitCircle(profile.x, profile.y, 25, 160, Math.PI * 0.66, 0.0003, "#81c784", "CSS"),
+  new OrbitCircle(profile.x, profile.y, 25, 160, Math.PI * 1.33, 0.0003, "#ba68c8", "HTML"),
 ];
 
-// Freeze profile circle
-circles[0].vx = 0;
-circles[0].vy = 0;
-
-// 🔍 Hover detection
+// 🖱️ Mouse hover detection
+let mouse = { x: 0, y: 0 };
 canvas.addEventListener("mousemove", (e) => {
   const rect = canvas.getBoundingClientRect();
   mouse.x = e.clientX - rect.left;
   mouse.y = e.clientY - rect.top;
 
-  circles.forEach(circle => {
+  orbitCircles.forEach(circle => {
     circle.isHovered = circle.isHoveredOver(mouse.x, mouse.y);
   });
 });
 
+// 👆 Click interactions
 canvas.addEventListener("click", (e) => {
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
   const mouseY = e.clientY - rect.top;
 
-  circles.forEach((circle) => {
-    if (circle.isClicked(mouseX, mouseY)) {
-      console.log(`Clicked on: ${circle.label || "Unnamed Circle"}`);
-      // Highlight feedback
-      circle.isHovered = true;
-      setTimeout(() => (circle.isHovered = false), 300);
+  // Check if clicked on orbiting circle
+  orbitCircles.forEach(circle => {
+    if (circle.isHoveredOver(mouseX, mouseY)) {
+      console.log(`Clicked on: ${circle.label}`);
     }
   });
+
+  // Check if clicked on profile circle
+  const dx = profile.x - mouseX;
+  const dy = profile.y - mouseY;
+  if (Math.sqrt(dx * dx + dy * dy) <= profile.radius) {
+    window.location.href = "profile-Tal_Hadad.html";
+  }
 });
 
+// 🔗 Draw fading line connections between profile and orbiting circles
+let frameCount = 0;
 function drawConnections() {
-  const threshold = 150;
-  for (let i = 0; i < circles.length; i++) {
-    for (let j = i + 1; j < circles.length; j++) {
-      const c1 = circles[i];
-      const c2 = circles[j];
-      const dx = c1.x - c2.x;
-      const dy = c1.y - c2.y;
-      const dist = Math.sqrt(dx * dx + dy * dy);
+    frameCount++;
+    const alpha = 0.5 + Math.sin(frameCount * 0.01) * 0.5; // ⏳ Slower flicker
+  
+    orbitCircles.forEach(c => {
+        const dx = c.x - profile.x;
+        const dy = c.y - profile.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+    
+        // Normalize direction
+        const nx = dx / dist;
+        const ny = dy / dist;
 
-      if (dist < threshold) {
+        // Trim ends to avoid overlap
+        const startX = profile.x + nx * profile.radius;
+        const startY = profile.y + ny * profile.radius;
+        const endX = c.x - nx * c.radius;
+        const endY = c.y - ny * c.radius;
+
+        // Draw the connecting line
         ctx.beginPath();
-        ctx.moveTo(c1.x, c1.y);
-        ctx.lineTo(c2.x, c2.y);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${1 - dist / threshold})`;
+        ctx.moveTo(startX, startY);
+        ctx.lineTo(endX, endY);
+        ctx.strokeStyle = `rgba(255, 255, 255, ${alpha})`;
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.closePath();
-      }
-    }
-  }
+    });
+}  
+
+// 🔵 Draw the central profile circle
+function drawProfileCircle() {
+  ctx.beginPath();
+  ctx.arc(profile.x, profile.y, profile.radius, 0, Math.PI * 2);
+  ctx.fillStyle = profile.color;
+  ctx.fill();
+  ctx.closePath();
+
+  ctx.fillStyle = "#000";
+  ctx.font = "14px Arial";
+  ctx.textAlign = "center";
+  ctx.fillText(profile.label, profile.x, profile.y + 4);
 }
 
+// 🎞️ Main animation loop
 function animate() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear frame
+  drawProfileCircle();
   drawConnections();
-  circles.forEach((circle) => circle.update(canvas));
-  requestAnimationFrame(animate);
+  orbitCircles.forEach(c => c.update());
+  requestAnimationFrame(animate); // Repeat
 }
 
 animate();
