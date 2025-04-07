@@ -9,6 +9,9 @@ function resizeCanvas() {
 window.addEventListener("resize", resizeCanvas);
 resizeCanvas();
 
+// 🟢 Mouse tracker
+let mouse = { x: 0, y: 0 };
+
 // 🎯 Circle Class with draw and update
 class Circle {
   constructor(x, y, radius, color, label = "") {
@@ -29,17 +32,24 @@ class Circle {
     ctx.fill();
     ctx.closePath();
 
-    // Optional label
+    // Label under circle
     if (this.label) {
       ctx.fillStyle = "#000";
       ctx.font = "12px Arial";
       ctx.textAlign = "center";
       ctx.fillText(this.label, this.x, this.y + 4);
     }
+
+    // Tooltip-like hover info
+    if (this.isHovered) {
+      ctx.fillStyle = "#333";
+      ctx.font = "bold 13px Arial";
+      ctx.textAlign = "center";
+      ctx.fillText(`🟠 ${this.label}`, this.x, this.y - this.radius - 10);
+    }
   }
 
   update(canvas) {
-        // Move
     this.x += this.vx;
     this.y += this.vy;
 
@@ -51,13 +61,18 @@ class Circle {
       this.vy *= -1;
     }
 
-        // Redraw
     this.draw(ctx);
   }
 
   isClicked(mouseX, mouseY) {
     const dx = this.x - mouseX;
     const dy = this.y - mouseY;
+    return Math.sqrt(dx * dx + dy * dy) <= this.radius;
+  }
+
+  isHoveredOver(mx, my) {
+    const dx = this.x - mx;
+    const dy = this.y - my;
     return Math.sqrt(dx * dx + dy * dy) <= this.radius;
   }
 }
@@ -74,6 +89,17 @@ const circles = [
 circles[0].vx = 0;
 circles[0].vy = 0;
 
+// 🔍 Hover detection
+canvas.addEventListener("mousemove", (e) => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+
+  circles.forEach(circle => {
+    circle.isHovered = circle.isHoveredOver(mouse.x, mouse.y);
+  });
+});
+
 canvas.addEventListener("click", (e) => {
   const rect = canvas.getBoundingClientRect();
   const mouseX = e.clientX - rect.left;
@@ -82,9 +108,9 @@ canvas.addEventListener("click", (e) => {
   circles.forEach((circle) => {
     if (circle.isClicked(mouseX, mouseY)) {
       console.log(`Clicked on: ${circle.label || "Unnamed Circle"}`);
-      // You can add animation or open modal later here
+      // Highlight feedback
       circle.isHovered = true;
-      setTimeout(() => (circle.isHovered = false), 300); // reset highlight
+      setTimeout(() => (circle.isHovered = false), 300);
     }
   });
 });
