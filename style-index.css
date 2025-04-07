@@ -1,12 +1,9 @@
 /* Body styles */
 body {
-    margin: 0;
-    padding: 0;
+    margin-top: 18%;
+    text-align: center;
     height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: linear-gradient(to bottom, black, rgb(8, 8, 70), rgb(6, 33, 6));
+    background: linear-gradient(to bottom, rgb(33, 75, 192), rgb(17, 149, 138), rgb(20, 176, 90));
     font-family: Arial, sans-serif;
 }
 
