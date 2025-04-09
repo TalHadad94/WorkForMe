@@ -110,7 +110,7 @@ canvas.addEventListener("click", (e) => {
   const dx = profile.x - mouseX;
   const dy = profile.y - mouseY;
   if (Math.sqrt(dx * dx + dy * dy) <= profile.radius) {
-    window.location.href = "profile-Tal_Hadad.html";
+    window.location.href = "./users/tal_hadad/tal_hadad.html";
   }
 });
 
