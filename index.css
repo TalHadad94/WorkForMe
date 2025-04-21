@@ -1,24 +1,85 @@
-/* Body styles */
+/* Reset default styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Full-screen layout */
 body {
-    margin-top: 18%;
-    text-align: center;
     height: 100vh;
-    background: linear-gradient(to bottom, rgb(33, 75, 192), rgb(17, 149, 138), rgb(20, 176, 90));
-    font-family: Arial, sans-serif;
-}
-
-/* Button styles */
-button {
-    padding: 10px 20px;
-    font-size: 16px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(160deg, #0f2027, #203a43, #2c5364);
     color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    border: 2px solid white;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
 }
 
-button:hover {
-    background-color: rgba(255, 255, 255, 0.3);
+/* Hero Section */
+.hero {
+    animation: fadeIn 1.2s ease-in-out;
+}
+
+.logo {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    letter-spacing: 2px;
+}
+
+.highlight {
+    color: #00ffe7;
+    text-shadow: 0 0 8px #00ffe766;
+}
+
+.tagline {
+    font-size: 1.2rem;
+    opacity: 0.85;
+    margin-bottom: 2rem;
+}
+
+/* Profile Button */
+.profile-button {
+    padding: 12px 24px;
+    font-size: 1rem;
+    color: #fff;
+    background: transparent;
+    border: 2px solid #00ffe7;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 10px rgba(0, 255, 231, 0.4);
+}
+
+.profile-button:hover {
+    background-color: rgba(0, 255, 231, 0.1);
+    transform: scale(1.05);
+    box-shadow: 0 0 14px rgba(0, 255, 231, 0.6);
+}
+
+/* Footer */
+footer {
+    position: absolute;
+    bottom: 20px;
+}
+
+.footer-text {
+    font-size: 0.9rem;
+    opacity: 0.5;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
